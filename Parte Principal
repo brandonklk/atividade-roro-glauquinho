@@ -1,0 +1,147 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <locale.h>
+#include <string.h>
+
+#define clear() puts("\x1B[2J")
+#define MAX_AGENDA 50
+
+typedef struct {
+	char nome[50];
+	int idade, numero, id;
+} registro;
+
+void imprimeMenu() {
+	puts("Agenda eletronica");
+	puts("\n");
+	puts("1 - Novo Contato");
+	puts("2 - Lista Contatos");
+	puts("3 - Deleta Contatos");
+	puts("S - Sair");
+	puts("\n");
+	printf("Escolha uma opção: ");
+	
+}
+
+void criaContato(registro r[], int *tamanho) {
+	int indice = *tamanho;
+	int idade, numero;
+	char nome[50];
+	
+	printf("\n\n\nEntre o nome do contato: ");
+	scanf("%s", &nome );
+	printf("\nEntre a idade do contato: ");
+	scanf("%d", &idade );
+	printf("\nEntre o numero do telefone: ");
+	scanf("%d", &numero);
+	strcpy(r[indice].nome, nome);
+	r[indice].idade  = idade;
+	r[indice].numero = numero;
+
+	*tamanho = *tamanho + 1;	
+}
+
+void listaContatos(registro r[], int *tamanho) {
+	system("cls");
+	int tam = *tamanho;
+	puts("Lista de Contatos\n");
+	puts("ID\tNome\tIdade\tNumero de Telefone\n");
+	
+	int i;
+	
+	for(i = 0; i < tam; i++) {
+		r[i].id = i;
+		printf("%d\t%s\t%d\t%d\n", r[i].id, r[i].nome, r[i].idade, r[i].numero);
+	}
+}
+
+void deletarContatos(registro r[], int *tamanho) {
+	system("cls");
+	int tam = *tamanho;
+	puts("Lista de Contatos\n");
+	puts("ID\tNome\tIdade\tNumero de Telefone\n");
+	
+	int i, j;
+	int idMax;
+	char nomeNovo[50];
+	int idadeNova, numeroNovo;
+	
+	for(i = 0; i < tam; i++) {
+		r[i].id = i;
+		printf("%d\t%s\t%d\t%d\n", r[i].id, r[i].nome, r[i].idade, r[i].numero);
+		idMax = r[i].id;
+	}
+	
+	printf("Coloque o ID do contato para deletar: ");
+	scanf("%d",&r[i].id);
+	
+	for (j = r[i].id; j < idMax; j++) {
+		idadeNova = r[i].idade;
+		numeroNovo = r[i].numero;
+		r[i].id--;
+		r[i].idade = idadeNova;
+		r[i].numero = numeroNovo;
+	}
+}
+
+void processaOpcao(int opcao, registro r[], int *tamanho) {
+	switch(opcao) {
+		case '1':
+			criaContato(r, tamanho);
+			break;
+		case '2':
+			listaContatos(r, tamanho);
+			break;
+		case '3':
+			deletarContatos(r, tamanho);
+			break;
+		case 's':
+			puts("Encerrando...\n");
+			break;
+		default:
+			puts("Opção inválida!\n");
+			break;
+	}
+}
+
+int main() {
+	FILE *arquivo;
+	char nome_arquivo[] = "agenda.txt";
+	char op;
+						
+	setlocale (LC_ALL, "Portuguese");
+			
+	registro agenda[MAX_AGENDA];
+
+	int tamanho = 0;
+	// lê o arquivo e carrega seu conteúdo para o vetor "agenda", se existir
+	arquivo = fopen(nome_arquivo, "r+");
+	if (arquivo != NULL) {
+		fread(&tamanho, sizeof(int), 1, arquivo);
+		fread(agenda, sizeof(registro), MAX_AGENDA, arquivo);
+		fclose(arquivo);
+	} else {
+		puts("Sem arquivo!");
+	}
+
+	do {
+		system("cls");
+		imprimeMenu();
+		op = tolower(getchar());		
+		processaOpcao(op, agenda, &tamanho);		
+		fflush(stdin); // limpa o buffer do teclado (para remover lixos)		
+		printf("\n->> Pressione <enter> duas vezes para continuar\n");
+		getchar();
+		getchar();		
+	   } while (op != 's');
+
+	// grava o arquivo, com o conteúdo do vetor, ao sair
+
+	arquivo = fopen(nome_arquivo, "a+");
+	fwrite(&tamanho, sizeof(int), 1, arquivo);	
+	fwrite(agenda, sizeof(registro), MAX_AGENDA, arquivo);
+	fclose(arquivo);
+
+	return 0;
+}
