@@ -13,13 +13,13 @@ typedef struct {
 } registro;
 
 void imprimeMenu() {
-	puts("Agenda eletronica");
+	puts("\n\n\t\tAgenda eletronica");
 	puts("\n");
 	puts("1 - Novo Contato");
 	puts("2 - Lista Contatos");
 	puts("3 - Deleta Contatos");
 	puts("4 - Pesquisar");
-	puts("S - Sair");
+	puts("\nS - Sair");
 	puts("\n");
 	printf("Escolha uma opção: ");
 	
@@ -31,9 +31,9 @@ void criaContato(registro r[], int *tamanho) {
 	char nome[50];
 	
 	printf("\n\n\nEntre o nome do contato: ");
-	scanf("%s", nome );
+	scanf("%s", nome);
 	printf("\nEntre a idade do contato: ");
-	scanf("%d", &idade );
+	scanf("%d", &idade);
 	printf("\nEntre o numero do telefone: ");
 	scanf("%d", &numero);
 	strcpy(r[indice].nome, nome);
@@ -47,7 +47,7 @@ void criaContato(registro r[], int *tamanho) {
 void listaContatos(registro r[], int *tamanho) {
 	system("cls");
 	int tam = *tamanho;
-	puts("Lista de Contatos\n");
+	puts("\t\t\tLista de Contatos\n");
 	puts("ID\tNome\t\tIdade\t\tNumero de Telefone\n");
 	
 	int i;
@@ -58,10 +58,12 @@ void listaContatos(registro r[], int *tamanho) {
 }
 
 void deletarContatos(registro r[], int *tamanho) {
-	int indice, i;
+	int indice, i, tama, result;
 	system("cls");
-	listaContatos(r,int t); //tenta arrumar isso
-	printf ("Informe o iD para deletar: ");
+	
+	printf("\t\tLista de contatos, escolha um para ser excluido.");
+	listaContatos(r, tamanho);
+	printf ("\n\nInforme o iD para deletar: ");
     scanf ("%d", &indice);
 	
 	for (i = indice; i < *tamanho-1; i++) {
@@ -136,7 +138,7 @@ int main() {
 		op = tolower(getchar());		
 		processaOpcao(op, agenda, &tamanho);		
 		fflush(stdin); // limpa o buffer do teclado (para remover lixos)		
-		printf("\n->> Pressione <enter> duas vezes para continuar\n");
+		printf("\n->> Pressione enter para continuar\n");
 		getchar();		
 	   } while (op != 's');
 
