@@ -28,12 +28,18 @@ void imprimeMenu() {
 
 void criaContato(registro r[], int *tamanho) {
 	int indice = *tamanho;
-	int idade, numero, tran, id;
+	int idade, numero, tran, i, continua, id;
 	char nome[50];
+	tran = strlen(nome);
 	
 	printf("\n\n\nEntre o nome do contato: ");
 	scanf("%s", nome);
-	
+	for(i=tran; i <= 1; i++){ 
+		if (tran <= 1) 
+		puts("\n"); 
+		puts("Informaçoes invalidada! Tente novamente"); 
+	return ; 
+	}
 	printf("\nEntre a idade do contato: ");
 	scanf("%d", &idade);
 	printf("\nEntre o numero do telefone: ");
@@ -45,13 +51,6 @@ void criaContato(registro r[], int *tamanho) {
 
 	*tamanho = *tamanho + 1;
 	
-	tran = strlen(nome);
-	
-	if(tran = 1){
-		printf("Informaçoes incompletas, tente novamente");
-	}else{
-		printf("Contato Salvo");
-	}
 }
 
 void listaContatos(registro r[], int *tamanho) {
