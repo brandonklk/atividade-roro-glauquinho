@@ -7,6 +7,7 @@
 #define clear() puts("\x1B[2J")
 #define MAX_AGENDA 50
 
+
 typedef struct {
 	char nome[50];
 	int idade, numero, id;
@@ -30,14 +31,13 @@ void criaContato(registro r[], int *tamanho) {
 	int indice = *tamanho;
 	int idade, numero, tran, i, continua, id;
 	char nome[50];
-	tran = strlen(nome);
 	
 	printf("\n\n\nEntre o nome do contato: ");
 	scanf("%s", nome);
+	tran = strlen(nome);
 	for(i=tran; i <= 1; i++){ 
 		if (tran <= 1) 
-		puts("\n"); 
-		puts("Informaçoes invalidada! Tente novamente"); 
+		puts("\nInformaçoes invalidada! Tente novamente"); 
 	return ; 
 	}
 	printf("\nEntre a idade do contato: ");
@@ -65,13 +65,15 @@ void listaContatos(registro r[], int *tamanho) {
 	for(i = 0; i < tam; i++) {
 		printf("%d\t%s\t\t%d\t\t%d\n", i, r[i].nome, r[i].idade, r[i].numero);
 	}
+	puts("--------------------------------------------------------------------");
 }
 
 void deletarContatos(registro r[], int *tamanho) {
 	int indice, i, tama, result;
 	system("cls");	
-	printf("\t\tLista de contatos, escolha um para ser excluido.");
 	listaContatos(r, tamanho);
+	puts("\n\nExcluir Contato\n");
+	puts("---------------------");
 	printf ("\n\nInforme o iD para deletar: ");
     scanf ("%d", &indice);
 	
@@ -92,7 +94,9 @@ void deletarContatos(registro r[], int *tamanho) {
 void pesquisa(registro r[]){
 	system("cls");
 	int indice;
-	printf ("Informe seu iD: ");
+	puts("\n\nPesquisar Usuario");
+	puts("-------------------------");
+	printf ("\n\nInforme seu iD: ");
     scanf ("%d", &indice);
 	printf("\nContatos %d\n\n", indice);
 	puts("ID\tNome\t\tIdade\t\tNumero de Telefone\n\t\t");
@@ -106,7 +110,9 @@ void editarContato(registro r[], int *tamanho){
 	char nome [30];
 	
 	listaContatos(r, tamanho);
-	printf ("\n\tInforme o ID que deseja editar: ");
+	puts("\n\nEditar Contato");
+	puts("----------------------");
+	printf ("\n\nInforme o ID que deseja editar: ");
     scanf ("%d", &indice);
     if (r[indice].idade == 0) {
 	    do {
@@ -151,7 +157,7 @@ void processaOpcao(int opcao, registro r[], int *tamanho) {
 			editarContato(r, tamanho);
 			break;
 		case 's':
-			puts("Encerrando...\n");
+			puts("\nEncerrando...\n");
 			break;
 		default:
 			puts("Opção inválida!\n");
