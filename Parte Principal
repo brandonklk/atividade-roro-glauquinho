@@ -19,6 +19,7 @@ void imprimeMenu() {
 	puts("2 - Lista Contatos");
 	puts("3 - Deleta Contatos");
 	puts("4 - Pesquisar");
+	puts("5 - Editar Contato");
 	puts("\nS - Sair");
 	puts("\n");
 	printf("Escolha uma opção: ");
@@ -27,11 +28,12 @@ void imprimeMenu() {
 
 void criaContato(registro r[], int *tamanho) {
 	int indice = *tamanho;
-	int idade, numero, id;
+	int idade, numero, tran, id;
 	char nome[50];
 	
 	printf("\n\n\nEntre o nome do contato: ");
 	scanf("%s", nome);
+	
 	printf("\nEntre a idade do contato: ");
 	scanf("%d", &idade);
 	printf("\nEntre o numero do telefone: ");
@@ -41,13 +43,22 @@ void criaContato(registro r[], int *tamanho) {
 	r[indice].numero = numero;
 	id = indice;
 
-	*tamanho = *tamanho + 1;	
+	*tamanho = *tamanho + 1;
+	
+	tran = strlen(nome);
+	
+	if(tran = 1){
+		printf("Informaçoes incompletas, tente novamente");
+	}else{
+		printf("Contato Salvo");
+	}
 }
 
 void listaContatos(registro r[], int *tamanho) {
 	system("cls");
 	int tam = *tamanho;
 	puts("\t\t\tLista de Contatos\n");
+	puts("\n\n\n");
 	puts("ID\tNome\t\tIdade\t\tNumero de Telefone\n");
 	
 	int i;
@@ -59,8 +70,7 @@ void listaContatos(registro r[], int *tamanho) {
 
 void deletarContatos(registro r[], int *tamanho) {
 	int indice, i, tama, result;
-	system("cls");
-	
+	system("cls");	
 	printf("\t\tLista de contatos, escolha um para ser excluido.");
 	listaContatos(r, tamanho);
 	printf ("\n\nInforme o iD para deletar: ");
@@ -86,8 +96,41 @@ void pesquisa(registro r[]){
 	printf ("Informe seu iD: ");
     scanf ("%d", &indice);
 	printf("\nContatos %d\n\n", indice);
-	puts("ID\tNome\t\tIdade\t\tNumero de Telefone\n");
+	puts("ID\tNome\t\tIdade\t\tNumero de Telefone\n\t\t");
 	printf("%d\t%s\t\t%d\t\t%d\n\n\n", indice, r[indice].nome, r[indice].idade, r[indice].numero);
+	system("pause");
+}
+
+void editarContato(registro r[], int *tamanho){
+	system("cls");
+	int indice,idade, numero;
+	char nome [30];
+	
+	listaContatos(r, tamanho);
+	printf ("\n\tInforme o ID que deseja editar: ");
+    scanf ("%d", &indice);
+    if (r[indice].idade == 0) {
+	    do {
+	    	system("cls");
+			printf("\t\t\tID inexistente! Tente novamente: ");
+			scanf ("%d", &indice);
+		} while (r[indice].idade == 0);
+	}
+	
+	printf("\n\tInforme o novo nome: ");
+	scanf("%s", nome);
+	printf("\n\tInforme a nova idade: ");
+	scanf("%d",&idade);
+	printf("\n\tInforme o novo número: ");
+	scanf("%d",&numero);
+	
+	strcpy(r[indice].nome, nome);
+	r[indice].idade = idade;
+	r[indice].numero = numero;
+	
+	printf("\nContato %d\n\n", indice);
+	puts("ID\tNome\t\tIdade\t\tNumero de Telefone\n");
+	printf("%d\ts\n\n%s\t\t\t\t\t%d\t\t\t%d\n\n\n", indice, r[indice].nome, r[indice].idade, r[indice].numero);
 	system("pause");
 }
 		
@@ -104,6 +147,9 @@ void processaOpcao(int opcao, registro r[], int *tamanho) {
 			break;
 		case '4':
 			pesquisa(r);
+			break;
+		case '5':
+			editarContato(r, tamanho);
 			break;
 		case 's':
 			puts("Encerrando...\n");
